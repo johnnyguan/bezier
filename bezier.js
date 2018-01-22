@@ -12,7 +12,7 @@ function lineByTime(dots,t){
 function bezierByTime(dots,t){
     if(dots.length == 1){
         return dots;
-    }else if(dot.length > 1){
+    }else if(dots.length > 1){
         var temp = [],
             pos1,
             pos2;

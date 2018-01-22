@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #canvas, #anima {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #canvas {
+            z-index: 10;
+        }
+        #anima {
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <canvas id="anima" width="600" height="600"></canvas>
+</body>
+<script src="../bezier.js"></script>
+<script>
+    var canvas = document.querySelector('#canvas'),
+        ctx = canvas.getContext('2d');
+    
+    
+    //js 计算贝塞尔曲线
+    ctx.save();
+    ctx.fillStyle = 'red';
+    var arr = generateBezier([{
+        x: 50,
+        y: 50
+    },{
+        x: 50,
+        y: 500
+    },{
+        x: 500,
+        y: 500
+    }], 500);
+    arr.forEach(function(v){
+        ctx.beginPath();
+        ctx.arc(v.x,v.y,6,0,Math.PI*2,true);
+        ctx.closePath();
+        ctx.fill();
+    })
+
+    ctx.restore();
+
+    //原生贝塞尔曲线
+    ctx.save();
+    ctx.strokeStyle = 'blue';
+    ctx.beginPath();
+    ctx.moveTo(50,50);
+    ctx.quadraticCurveTo(50,500,500,500);
+    ctx.stroke();
+    ctx.restore();
+
+
+    var anaCanvas = document.querySelector('#anima'),
+        aCtx = anaCanvas.getContext('2d'),
+        i = 0;
+    
+    var img=new Image();
+    img.src = 'qq.png';
+    img.onload = function(){
+        requestAnimationFrame(draw);
+    }
+    
+    
+    function draw(){
+        anaCanvas.width = anaCanvas.width;
+        anaCanvas.width = anaCanvas.width;
+        aCtx.fillStyle = 'green';
+        aCtx.beginPath();
+        aCtx.arc(arr[i].x,arr[i].y,30,0,Math.PI*2,true);
+        aCtx.closePath();
+        aCtx.fill();
+        aCtx.drawImage(img,arr[i].x-15,arr[i].y-15,30,30);
+        
+        i++;
+        if(i == arr.length){
+            i = 0;
+            // return
+        }
+        requestAnimationFrame(draw);
+    }
+
+</script>
+</html>
